@@ -1,9 +1,10 @@
 package com.ishaank.Projects.GuardianBank.service;
 
 import com.ishaank.Projects.GuardianBank.entity.Account;
+import com.ishaank.Projects.GuardianBank.entity.AccountType;
 import com.ishaank.Projects.GuardianBank.entity.User;
-import com.ishaank.Projects.GuardianBank.enumeration.AccountType;
 import com.ishaank.Projects.GuardianBank.repository.AccountRepository;
+import com.ishaank.Projects.GuardianBank.repository.AccountTypeRepository;
 import com.ishaank.Projects.GuardianBank.repository.UserRepository;
 import com.ishaank.Projects.GuardianBank.utils.AccountUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -24,7 +23,9 @@ public class UserService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private AccountUtil accountService;
+    private AccountUtil accountServiceUtil;
+    @Autowired
+    private AccountTypeRepository accountTypeRepository;
 
     private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
@@ -34,13 +35,14 @@ public class UserService {
         user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
 
+        AccountType savingsAccountType = accountTypeRepository.findByType("Savings");
+
         Account account = new Account();
-        account.setAccountType(AccountType.SAVINGS);
-        account.setAccountNumber(accountService.generateUniqueAccountNumber());
+        account.setAccountType(savingsAccountType);
+        account.setAccountNumber(accountServiceUtil.generateUniqueAccountNumber());
         account.setBalance(0.0d);
         account.setCreatedAt(LocalDateTime.now());
         account.setUser(user);
-//        Account newAccount = accountRepository.save(account);
 
         user.getAccounts().add(account);
         userRepository.save(user);

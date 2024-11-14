@@ -1,6 +1,5 @@
 package com.ishaank.Projects.GuardianBank.entity;
 
-import com.ishaank.Projects.GuardianBank.enumeration.AccountType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +15,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_type_id")
     private AccountType accountType;
 
     private String accountNumber;

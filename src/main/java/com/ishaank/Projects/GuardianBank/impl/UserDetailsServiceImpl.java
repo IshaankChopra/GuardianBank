@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -19,9 +21,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         User user = userRepository.findByUserId(username);
         if (user != null) {
-            return org.springframework.security.core.userdetails.User.builder()
+            return org.springframework.security.core.userdetails.User
+                    .builder()
                     .username(user.getUserId())
                     .password(user.getPassword())
+                     // No roles
                     .build();
         }
         throw new UsernameNotFoundException("User not found with userID: " + username);
