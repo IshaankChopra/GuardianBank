@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter @Setter
 @Table(name = "account")
@@ -17,12 +19,12 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
-    private String bankCode = "001";
     private String accountNumber;
-    private Double balance = 0.0d;
+    private Double balance;
+    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
 }

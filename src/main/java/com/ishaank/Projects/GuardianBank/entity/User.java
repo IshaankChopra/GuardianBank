@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +17,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(unique = true)
+    @NotBlank
+    private String userId;
 
     @NotBlank
     private String firstName;
@@ -33,8 +39,8 @@ public class User {
 //    @NotBlank
 //    private String countryCode;
 //
-//    @NotBlank
-//    private String phoneNumber;
+    @NotBlank
+    private String phoneNumber;
 //
 //    @NotBlank
 //    private String address;
@@ -42,7 +48,9 @@ public class User {
 //    @NotBlank
 //    private String HKID;
 
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Account> accounts;
+    private List<Account> accounts = new ArrayList<>();
 
 }
