@@ -2,6 +2,7 @@ package com.ishaank.Projects.GuardianBank.filter;
 
 
 import com.ishaank.Projects.GuardianBank.utils.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,16 +36,27 @@ public class JwtFilter extends OncePerRequestFilter {
         String jwt = null;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            userId = jwtUtil.extractUsername(jwt);
+            try {
+                userId = jwtUtil.extractUsername(jwt);
+            } catch (ExpiredJwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("Please log in again!");
+                return;
+            }
         }
         if (userId != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
             if (jwtUtil.validateToken(jwt)) {
-//                log.info("works");
-//                log.info(userId);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+            else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("Please log in again!");
+                return;
             }
         }
         filterChain.doFilter(request, response);

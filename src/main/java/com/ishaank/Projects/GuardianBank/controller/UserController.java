@@ -50,7 +50,6 @@ public class UserController {
         return new ResponseEntity<>(details, HttpStatus.OK);
     }
 
-    @Transactional
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody User newUser) {
 

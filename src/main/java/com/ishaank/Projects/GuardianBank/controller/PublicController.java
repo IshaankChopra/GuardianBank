@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping
+@RequestMapping("/public")
 public class PublicController {
 
     @Autowired
@@ -60,19 +60,19 @@ public class PublicController {
         }
     }
 
-    @PostMapping("/logoutt")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
 
         String token = jwtUtil.extractToken(request);
         if (token == null) {
             return new ResponseEntity<>("User is already logged out!", HttpStatus.BAD_REQUEST);
         }
+        SecurityContextHolder.clearContext();
         if (!blacklistedTokenService.tokenExists(token)) {
             blacklistedTokenService.blacklistToken(new BlacklistedToken(token));
-            SecurityContextHolder.clearContext();
-            return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
+
+            return new ResponseEntity<>("Logged out successfully!", HttpStatus.OK);
         }
-        SecurityContextHolder.clearContext();
         return new ResponseEntity<>("User is already logged out!", HttpStatus.BAD_REQUEST);
     }
 }

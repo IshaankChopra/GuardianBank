@@ -39,6 +39,7 @@ public class User {
 //    @NotBlank
 //    private String countryCode;
 //
+    @Column(unique = true)
     @NotBlank
     private String phoneNumber;
 //
