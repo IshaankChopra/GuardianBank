@@ -6,7 +6,6 @@ import com.ishaank.Projects.GuardianBank.entity.AccountType;
 import com.ishaank.Projects.GuardianBank.entity.User;
 import com.ishaank.Projects.GuardianBank.repository.AccountTypeRepository;
 import com.ishaank.Projects.GuardianBank.service.UserService;
-import com.ishaank.Projects.GuardianBank.utils.AccountTypeUtil;
 import com.ishaank.Projects.GuardianBank.utils.AccountUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Slf4j
 @RestController

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: GuardianBank
+  datasource:
+    url: jdbc:mysql://localhost:3306/guardian_bank
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  main:
+    allow-circular-references: true
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui/index.html

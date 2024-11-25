@@ -11,11 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class TransactionConfig {
 
-    //Need a transactional manager for managing the transactions, and that is achieved by the
-    // PlatformTransactionManager, which is implmented by the JpaTransactionManager for our case
-    // where we are using MongoDB
-    // Simply finds the bean that is implementing the PlatformTransactionManager, method name doesn't matter
-
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory dbFactory) {
         return new JpaTransactionManager(dbFactory);
